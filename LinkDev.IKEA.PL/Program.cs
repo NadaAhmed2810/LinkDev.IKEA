@@ -1,3 +1,4 @@
+using LinkDev.IKEA.DAL;
 using LinkDev.IKEA.DAL.Persistance.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ namespace LinkDev.IKEA.PL
                     optionsBuilder.UseSqlServer("Server=.;Database=IKEA;Trusted_Connection=True");
                 }
                 );
+            builder.Services.AddPersistenceServices(builder.Configuration);
             #endregion
 
             var app = builder.Build();

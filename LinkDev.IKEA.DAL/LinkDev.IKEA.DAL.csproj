@@ -9,11 +9,11 @@
   <ItemGroup>
     <Folder Include="Common\Enums\" />
     <Folder Include="Concrete\" />
-    <Folder Include="Persistance\Data\Migrations\" />
-    <Folder Include="Persistance\Data\DataSeeds\" />
-    <Folder Include="Persistance\Data\Dbinitializer\" />
-    <Folder Include="Persistance\UnitOfWork\" />
-    <Folder Include="Persistance\Repositories\" />
+    <Folder Include="Persistence\Data\Migrations\" />
+    <Folder Include="Persistence\Data\DataSeeds\" />
+    <Folder Include="Persistence\Data\Dbinitializer\" />
+    <Folder Include="Persistence\UnitOfWork\" />
+    <Folder Include="Persistence\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
