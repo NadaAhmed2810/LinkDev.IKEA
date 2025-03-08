@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Common\Enums\" />
     <Folder Include="Concrete\" />
-    <Folder Include="Entities\" />
     <Folder Include="Persistance\Data\Migrations\" />
     <Folder Include="Persistance\Data\Configurations\" />
     <Folder Include="Persistance\Data\DataSeeds\" />
