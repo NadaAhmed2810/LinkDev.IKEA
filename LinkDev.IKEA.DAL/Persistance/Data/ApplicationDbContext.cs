@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.DAL.Persistance.Data
 {
-    internal class ApplicationDbContext:DbContext
+    public class ApplicationDbContext:DbContext
     {
-        public ApplicationDbContext() : base()
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
 
         }
