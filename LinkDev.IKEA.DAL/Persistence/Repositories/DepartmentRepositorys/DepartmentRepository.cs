@@ -1,4 +1,5 @@
-﻿using LinkDev.IKEA.DAL.contracts.Repositories;
+﻿
+using LinkDev.IKEA.DAL.Contracts.Repositories;
 using LinkDev.IKEA.DAL.Entities.Departments;
 using LinkDev.IKEA.DAL.Persistance.Data;
 using System;
@@ -32,25 +33,17 @@ namespace LinkDev.IKEA.DAL.Persistence.Repositories.DepartmentRepositories
         {
             return _dbContext.Departments.ToList();
         }
-        public int Add(Department entity)
-        {
-             _dbContext.Departments.Add(entity);
-            return _dbContext.SaveChanges();
-        }
-        public int Update(Department entity)
-        {
-             _dbContext.Departments.Update(entity);
-            return (_dbContext.SaveChanges());
-        }
-        public int Delete(int id)
+        public void Add(Department entity)=>_dbContext.Departments.Add(entity);
+        
+        public void Update(Department entity)=> _dbContext.Departments.Update(entity);
+        
+        public void Delete(int id)
         {
             var department = _dbContext.Departments.Find(id);
             if (department != null)
             { //department is {}
                 _dbContext.Departments.Remove(department);
-                return _dbContext.SaveChanges();
             }
-            return 0;
 
         }
 
