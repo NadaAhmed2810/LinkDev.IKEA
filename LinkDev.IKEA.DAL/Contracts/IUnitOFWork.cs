@@ -11,7 +11,7 @@ namespace LinkDev.IKEA.DAL.Contracts
 
     public interface IUnitOFWork
     {
-        public IDepartmentRepository? departmentRepository { get; set; }
+        public IDepartmentRepository departmentRepository { get; set; }
         void Dispose();
         int Complete();
     }
