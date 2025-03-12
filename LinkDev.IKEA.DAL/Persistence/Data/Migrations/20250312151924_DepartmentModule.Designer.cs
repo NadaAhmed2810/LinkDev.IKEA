@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LinkDev.IKEA.DAL.Persistence.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250308213740_Department")]
-    partial class Department
+    [Migration("20250312151924_DepartmentModule")]
+    partial class DepartmentModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,35 +34,31 @@ namespace LinkDev.IKEA.DAL.Persistence.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 10L, 10);
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GetUTCDate()");
+                        .HasDefaultValueSql("GetUTCDate()");
 
-                    b.Property<DateOnly>("CreationOnly")
+                    b.Property<DateOnly>("CreationDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("LastModifiedOn")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GetUTCDate()");
+                        .HasComputedColumnSql("GetUTCDate()");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");

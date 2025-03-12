@@ -18,8 +18,8 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Common
             base.Configure(builder);
             builder.Property(D => D.CreatedBy).HasColumnType("varchar(100)");
             builder.Property(D => D.LastModifiedBy).HasColumnType("varchar(100)");
-            builder.Property(D => D.LastModifiedOn).HasDefaultValueSql("GetUTCDate()");
-            builder.Property(D => D.CreatedOn).HasComputedColumnSql("GetUTCDate()");
+            builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GetUTCDate()");
+            builder.Property(D => D.CreatedOn).HasDefaultValueSql("GetUTCDate()");
 
 
         }
