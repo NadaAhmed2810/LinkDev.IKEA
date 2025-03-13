@@ -13,7 +13,7 @@ namespace LinkDev.IKEA.DAL.Persistence.UnitOfWork
     public class UnitOfWork : IUnitOFWork
     {
         private readonly ApplicationDbContext _context;
-        public IDepartmentRepository departmentRepository { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IDepartmentRepository departmentRepository { get; set; }
         public UnitOfWork(ApplicationDbContext dbContext)
         {
             _context = dbContext;

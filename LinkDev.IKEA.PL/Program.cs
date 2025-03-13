@@ -1,9 +1,8 @@
 using LinkDev.IKEA.DAL;
-using LinkDev.IKEA.DAL.contracts;
 using LinkDev.IKEA.DAL.Persistance.Data;
 using LinkDev.IKEA.PL.Extensions;
 using Microsoft.EntityFrameworkCore;
-
+using LinkDev.IKEA.BLL;
 namespace LinkDev.IKEA.PL
 {
     public class Program
@@ -31,6 +30,8 @@ namespace LinkDev.IKEA.PL
                 }
                 );
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+
             #endregion
 
             var app = builder.Build();
