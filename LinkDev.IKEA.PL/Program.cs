@@ -31,6 +31,7 @@ namespace LinkDev.IKEA.PL
                 );
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddApplicationServices();
+            builder.Services.AddLogging();
 
             #endregion
 

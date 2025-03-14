@@ -1,4 +1,5 @@
-﻿using LinkDev.IKEA.BLL.Services.Departments;
+﻿using LinkDev.IKEA.BLL.Models_DTOS_.Department;
+using LinkDev.IKEA.BLL.Services.Departments;
 using LinkDev.IKEA.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,13 @@ namespace LinkDev.IKEA.PL.Controllers
     //Composition : DepartmentController Has a IDepartmentService
     public class DepartmentController/*(IDepartmentService departmentService)*/ : Controller
     {
+        private readonly ILogger<DepartmentController> logger;
         #region Services
         private readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IDepartmentService departmentService)
+        public DepartmentController(ILogger<DepartmentController> logger,IDepartmentService departmentService)
         {
+            this.logger = logger;
             _departmentService = departmentService;
         }
         #endregion
@@ -55,9 +58,47 @@ namespace LinkDev.IKEA.PL.Controllers
 
             };
 
-            return View(department);
+            return View(DepartmentDetailsView);
         }
 
+        #endregion
+        #region Create
+        [HttpGet]//Get:BaseUrl/Department/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]//Post:BaseUrl/Department/Create
+        public IActionResult Create(CreateDepartmentView model)
+        {
+            var message = "Department Created Successfully";
+            try
+            {
+                if (!ModelState.IsValid)//server side validation
+                    return BadRequest();
+                var department = new CreateDepartmentDto(model.Code, model.Name, model.Description, model.CreationDate);
+                var Created = _departmentService.CreateDepartment(department) > 0;
+                if (!Created)
+                    message = "Failed To Create Department";
+
+            }
+            catch (Exception ex)
+            {
+                //1.Log Exception in Database or External File [By using Serial Package]
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                //2.Set message
+                message = "An Erroe Occured,Please Try Later ";
+                throw;
+            }
+            TempData["Message"]=message;
+
+            return RedirectToAction(nameof(Index));
+          
+
+
+
+
+        }
         #endregion
     }
 }
