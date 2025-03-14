@@ -38,7 +38,7 @@ namespace LinkDev.IKEA.PL.Controllers
         #endregion
         #region Details
         [HttpGet] //Get :BaseUrl/Department/Details/id
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id,string ViewName="Details")
         {
             if (!id.HasValue)
                 return BadRequest();
@@ -59,7 +59,7 @@ namespace LinkDev.IKEA.PL.Controllers
 
             };
 
-            return View(DepartmentDetailsView);
+            return View(ViewName,DepartmentDetailsView);
         }
 
         #endregion
@@ -153,6 +153,35 @@ namespace LinkDev.IKEA.PL.Controllers
 
 
         }
+        #endregion
+        #region Delete
+        [HttpGet]
+        //public IActionResult Delete(int? id)
+        //{
+
+        //    return RedirectToAction(nameof(Details), new { id = id, ViewName = "Delete" });
+        //}
+        [HttpPost]
+        public IActionResult Delete(int Id)
+        {
+         
+            var message = "Department Deleted Successfully";
+
+            try
+            {
+                var deleted= _departmentService.DeleteDepartment(Id);
+                if (!deleted)
+                    message = "Failed to Deleted Department";
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                message = "An Error Occurred,Please Try Later ";
+            }
+            TempData["Message"] = message;
+            return RedirectToAction(nameof(Index));
+        }
+
         #endregion
     }
 }
