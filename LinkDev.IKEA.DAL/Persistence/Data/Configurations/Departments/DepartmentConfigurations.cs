@@ -16,8 +16,8 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Departments
         {
             base.Configure(builder);
             builder.Property(D => D.Id).UseIdentityColumn(10, 10);
-            builder.Property(D => D.Name).HasColumnType("varchar(100)");
-            builder.Property(D => D.Code).HasColumnType("varchar(10)");
+            builder.Property(D => D.Name).HasColumnType("varchar(100)").IsRequired(false);
+            builder.Property(D => D.Code).HasColumnType("varchar(10)").IsRequired(false);
             builder.Property(D => D.Description).HasColumnType("varchar(100)");
         }
     }

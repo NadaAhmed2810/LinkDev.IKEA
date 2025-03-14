@@ -1,7 +1,8 @@
 using LinkDev.IKEA.DAL;
 using LinkDev.IKEA.DAL.Persistance.Data;
+using LinkDev.IKEA.PL.Extensions;
 using Microsoft.EntityFrameworkCore;
-
+using LinkDev.IKEA.BLL;
 namespace LinkDev.IKEA.PL
 {
     public class Program
@@ -29,9 +30,21 @@ namespace LinkDev.IKEA.PL
                 }
                 );
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+            builder.Services.AddLogging();
+
             #endregion
 
             var app = builder.Build();
+
+            #region Initialize Databse 
+            InitializerExtensions.InitializerDatabase(app);
+
+            #endregion
+
+
+
+
 
             #region Configure HTTP Request Pipelines
             // Configure the HTTP request pipeline.
