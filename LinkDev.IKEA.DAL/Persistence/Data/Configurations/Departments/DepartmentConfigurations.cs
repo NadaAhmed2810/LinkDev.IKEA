@@ -2,15 +2,10 @@
 using LinkDev.IKEA.DAL.Persistance.Data.Configurations.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Departments
 {
-    internal class DepartmentConfigurations : BaseAuditableConfiguration<int,Department>
+    internal class DepartmentConfigurations : BaseAuditableConfiguration<int, Department>
     {
         public override void Configure(EntityTypeBuilder<Department> builder)
         {
@@ -19,6 +14,12 @@ namespace LinkDev.IKEA.DAL.Persistance.Data.Configurations.Departments
             builder.Property(D => D.Name).HasColumnType("varchar(100)").IsRequired(false);
             builder.Property(D => D.Code).HasColumnType("varchar(10)").IsRequired(false);
             builder.Property(D => D.Description).HasColumnType("varchar(100)");
+            //Manager RelationShip
+            builder.HasOne(D => D.Manager)
+                   .WithOne()
+                   .HasForeignKey<Department>(D => D.ManagerId)
+                   .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 }
