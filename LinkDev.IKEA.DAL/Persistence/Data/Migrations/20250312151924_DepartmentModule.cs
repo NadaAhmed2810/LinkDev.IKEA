@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LinkDev.IKEA.DAL.Persistence.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Department : Migration
+    public partial class DepartmentModule : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,14 +17,14 @@ namespace LinkDev.IKEA.DAL.Persistence.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "10, 10"),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Code = table.Column<string>(type: "varchar(10)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Code = table.Column<string>(type: "varchar(10)", nullable: true),
                     Description = table.Column<string>(type: "varchar(100)", nullable: true),
-                    CreationOnly = table.Column<DateOnly>(type: "date", nullable: false),
-                    CreatedBy = table.Column<string>(type: "varchar(100)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "GetUTCDate()"),
-                    LastModifiedBy = table.Column<string>(type: "varchar(100)", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GetUTCDate()")
+                    CreationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CreatedBy = table.Column<string>(type: "varchar(100)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GetUTCDate()"),
+                    LastModifiedBy = table.Column<string>(type: "varchar(100)", nullable: true),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "GetUTCDate()")
                 },
                 constraints: table =>
                 {
