@@ -24,7 +24,7 @@ namespace LinkDev.IKEA.DAL.Entities.Employees
         public EmployeeType EmployeeType { get; set; }
 
         public string? Image { get; set; } //Image Path in DataBase 
-        public  int DepartmentId  { get; set; }
+        public  int? DepartmentId  { get; set; }
         public  virtual Department? Department { get; set; }
 
 
