@@ -1,4 +1,6 @@
 ﻿using LinkDev.IKEA.BLL.Services.Employees;
+using LinkDev.IKEA.DAL.Persistence.Common;
+using LinkDev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.IKEA.PL.Controllers
@@ -14,6 +16,46 @@ namespace LinkDev.IKEA.PL.Controllers
             _employeeService = employeeService;
         }
         #endregion
+        [HttpGet] //baseUrl/Employee/Index
+        public ActionResult Index(int PageIndex=1,int PageSize=10)
+        {
+            // If Exception will can throw will use try ,catch
+            
+            var queryparams = new QueryParameters()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            var employees = _employeeService.GetPaginatedEmployees(queryparams);
+            var model = new EmployeeListViewModel()
+            {
+                Employees = employees.Data.Select(e=>new EmployeeViewModel()
+                {
+                    Id = e.Id,
+                    FullName = $"{e.FirstName} {e.LastName}",
+                    Age = e.Age,
+                    Address = e.Address,
+                    Salary = e.Salary,
+                    Email = e.Email,
+                    PhoneNumber = e.PhoneNumber,
+                    IsActive = e.IsActive,
+                    FormattedHireDate = e.HireDate.ToString("dd/MM/yyyy"),
+                    Gender = e.Gender,
+                    EmployeeType = e.EmployeeType,
+                    DepartmentName = e.DepartmentName,
+                    CreatedBy = e.CreatedBy,
+                    CreatedOn = e.CreatedOn,
+                    LastModifiedBy = e.LastModifiedBy,
+                    LastModifiedOn = e.LastModifiedOn,
+
+                }),
+                PageSize = PageSize,
+                Page = PageIndex,
+                TotalCount = employees.TotalCount
+            };
+            return View(model);
+        } 
+
 
     }
 }

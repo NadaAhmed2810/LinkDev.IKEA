@@ -67,14 +67,15 @@ namespace LinkDev.IKEA.DAL.Persistence.Repositories
 
       
 
-        public PaginatedResult<TEntity> GetAll(QueryParameters queryParameters, Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? Includes = null)
+        public PaginatedResult<TEntity> GetAll(QueryParameters queryParameters, Expression<Func<TEntity, bool>>? filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? Includes = null)
         {
             IQueryable<TEntity> query = _dbSet;
             if (Includes is { })
             {
                 query = Includes(query);
             }
-            query = query.Where(filter);
+            if(filter is { })
+               query = query.Where(filter);
             //Get total count before applying pagination
             var TotalCount = query.Count();
             if (OrderBy is { })
