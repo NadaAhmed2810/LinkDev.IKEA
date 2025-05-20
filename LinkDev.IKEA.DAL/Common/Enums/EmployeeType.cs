@@ -11,6 +11,6 @@ namespace LinkDev.IKEA.DAL.Common.Enums
         FullTime = 1,
         PartTime = 2,
         Intern = 3,
-    
+        
     }
 }

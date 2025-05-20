@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace LinkDev.IKEA.DAL.Common
+namespace LinkDev.IKEA.DAL.Common.JsonConverters
 {
     public class DateOnlyJsonConverter : JsonConverter<DateOnly>
     {
