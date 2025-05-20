@@ -14,6 +14,7 @@ namespace LinkDev.IKEA.BLL.Models_DTOS_.Employee
         string? PhoneNumber,
         string? Address, 
         DateOnly BirthDate,
+        decimal Salary,
         Gender Gender,
         EmployeeType EmployeeType,
         int? DepartmentId);

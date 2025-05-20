@@ -14,6 +14,7 @@ namespace LinkDev.IKEA.BLL.Models_DTOS_.Employee
         string? Email,
         string? PhoneNumber,
         string? Address,
+        decimal Salary,
         bool IsActive,
         Gender Gender,
         EmployeeType EmployeeType,

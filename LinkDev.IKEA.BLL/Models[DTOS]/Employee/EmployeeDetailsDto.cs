@@ -3,7 +3,7 @@
 namespace LinkDev.IKEA.BLL.Models_DTOS_.Employee
 {
     public record EmployeeDetailsDto(
-        EmployeeDetailsDto Employee,
+        EmployeeDto Employee,
         DepartmentDto? Department,
         int YearsOfExperience
         );

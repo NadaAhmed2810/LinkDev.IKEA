@@ -20,7 +20,7 @@ namespace LinkDev.IKEA.DAL.Contracts.Repositories
         void Update(TEntity entity);
         void Delete(TKey id);
         PaginatedResult<TEntity> GetAll(QueryParameters queryParameters,
-                                          Expression<Func<TEntity, bool>> filter
+                                          Expression<Func<TEntity, bool>>? filter=null
                                          ,Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy = null,
                                           Func<IQueryable<TEntity>, IQueryable<TEntity>>? Includes = null);
         TEntity? Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IQueryable<TEntity>>? Include = null);

@@ -18,7 +18,7 @@ namespace LinkDev.IKEA.BLL.Models_DTOS_.Employee
          string? Address,
          bool IsActive,
          DateOnly HireDate,
-         Gender MyProperty,
+         Gender Gender,
          EmployeeType EmployeeType,
          int? DepartmentId,
          string? CreatedBy,
