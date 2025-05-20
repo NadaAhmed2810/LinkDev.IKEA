@@ -55,6 +55,43 @@ namespace LinkDev.IKEA.PL.Controllers
             };
             return View(model);
         } 
+        [HttpGet]//baseUrl/Employee/Details/Id
+        public ActionResult Details(int? id)
+        {
+            if(!id.HasValue)
+            if(!id.HasValue)
+                return BadRequest();
+            var EmployeeDetails = _employeeService.GetEmployeeDetails(id.Value);
+            if (EmployeeDetails == null)
+                return NotFound();
+            var model = new EmployeeDetailsViewModel()
+            {
+                Id = EmployeeDetails.Employee.Id,
+                FirstName = EmployeeDetails.Employee.FirstName,
+                LastName = EmployeeDetails.Employee.LastName,
+                Age = EmployeeDetails.Employee.Age,
+                Email = EmployeeDetails.Employee.Email,
+                PhoneNumber = EmployeeDetails.Employee.PhoneNumber,
+                Address = EmployeeDetails.Employee.Address,
+                FormattedHireDate = EmployeeDetails.Employee.HireDate.ToString("dd/MM/yyyy"),
+                Salary = EmployeeDetails.Employee.Salary,
+                EmployeeType = EmployeeDetails.Employee.EmployeeType,
+                IsActive = EmployeeDetails.Employee.IsActive,
+                Gender = EmployeeDetails.Employee.Gender,
+                YearsOfService = EmployeeDetails.YearsOfService,
+                DepartmentId = EmployeeDetails.Department.Id,
+                DepartmentName = EmployeeDetails.Department.Name,
+                DepartmentCode = EmployeeDetails.Department.Code,
+                DepartmentDescription = EmployeeDetails.Department.Description,
+                CreatedBy = EmployeeDetails.Employee.CreatedBy,
+                CreatedDate = EmployeeDetails.Employee.CreatedOn,
+                LastModifiedBy = EmployeeDetails.Employee.LastModifiedBy,
+                LastModifiedDate = EmployeeDetails.Employee.LastModifiedOn,
+
+            };
+
+            return View(model);
+        }
 
 
     }

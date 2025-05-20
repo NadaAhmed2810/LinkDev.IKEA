@@ -1,6 +1,7 @@
 ﻿using LinkDev.IKEA.BLL.Models_DTOS_.Department;
 using LinkDev.IKEA.DAL.Contracts;
 using LinkDev.IKEA.DAL.Entities.Departments;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,21 +19,21 @@ namespace LinkDev.IKEA.BLL.Services.Departments
         }
         public DepartmentDetailsDTO? GetDepartmentById(int id)
         {
-            var Department=unitOfWork.Departments.GetById(id);
-            if (Department == null) 
+            var department=unitOfWork.Departments.GetById(id);
+            if (department == null)
                 return null;
             return new DepartmentDetailsDTO
             (
                  id,
-                Department.Code,
-                Department.Name,
-                Department.Description,
-                Department.CreationDate,
-                Department.CreatedBy,
-                Department.CreatedOn,
-                Department.LastModifiedBy,
-                Department.LastModifiedOn
-               
+                department.Code,
+                department.Name,
+                department.Description,
+                department.CreationDate,
+                department.CreatedBy,
+                department.CreatedOn,
+                department.LastModifiedBy,
+                department.LastModifiedOn
+
             );
         }
 

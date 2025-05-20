@@ -199,7 +199,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         {
             if (employee.DepartmentId.HasValue)
             {
-                var department = _unitOfWork.Departments.GetById(employeedto.DepartmentId.Value);
+                var department = _unitOfWork.Departments.GetById(employeedto.DepartmentId!.Value);
                 if (department == null)
                     throw new Exception($"Department with ID {employeedto.DepartmentId} not found");
                 
