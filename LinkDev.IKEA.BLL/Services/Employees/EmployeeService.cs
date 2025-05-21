@@ -144,7 +144,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         }
         
 
-        public void UpdateEmployee(EmployeeUpdateDto employeedto)
+        public int UpdateEmployee(EmployeeUpdateDto employeedto)
         {
             var employee = _unitOfWork.Employees.GetById(employeedto.id);
             if (employee == null)
@@ -161,7 +161,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
             employee.EmployeeType = employeedto.EmployeeType;
             employee.DepartmentId = employeedto.DepartmentId;
             _unitOfWork.Employees.Update(employee);
-            _unitOfWork.Complete();
+            return _unitOfWork.Complete();
         }
 
       

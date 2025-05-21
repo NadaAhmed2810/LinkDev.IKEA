@@ -5,6 +5,7 @@ using LinkDev.IKEA.DAL.Persistence.Common;
 using LinkDev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Framework;
 
 namespace LinkDev.IKEA.PL.Controllers
 {
@@ -124,21 +125,84 @@ namespace LinkDev.IKEA.PL.Controllers
             var Message = "Department Created Successfully";
             try
             {
-                var employeeToCreate = new EmployeeCreateDto(model.FirstName, model.LastName,model.Email,model.PhoneNumber, model.Address, model.DateofBirth, model.Salary, model.Gender, model.EmployeeType, model.DepartmentId);
-                var created = _employeeService.CreateEmployee(employeeToCreate)>0;
+                var employeeToCreate = new EmployeeCreateDto(model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.Address, model.DateofBirth, model.Salary, model.Gender, model.EmployeeType, model.DepartmentId);
+                var created = _employeeService.CreateEmployee(employeeToCreate) > 0;
                 if (!created)
                     Message = "Failed to create employee";
-               
+
 
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message,ex.StackTrace!.ToString());
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
                 Message = "An Error Occurred,Please Try Again Later";
                 return RedirectToAction(nameof(Index));
             }
             TempData["Message"] = Message;
             return RedirectToAction(nameof(Index));
+
+        }
+        [HttpGet]//baseUrl/Employee/Edit/Id?
+        public ActionResult Edit(int? id)
+        {
+            if (!id.HasValue)
+                return BadRequest();
+            var employeeDetails = _employeeService.GetEmployeeById(id.Value);
+            if (employeeDetails == null)
+                return NotFound();
+            var model = new EmployeeEditViewModel()
+            {
+                Id = employeeDetails.Id,
+                FirstName = employeeDetails.FirstName,
+                LastName = employeeDetails.LastName,
+                Email = employeeDetails.Email,
+                PhoneNumber = employeeDetails.PhoneNumber,
+                Address = employeeDetails.Address,
+                //DateofBirth = employeeDetails.DateofBirth,
+                Salary = employeeDetails.Salary,
+                IsActive = employeeDetails.IsActive,
+                Gender = employeeDetails.Gender,
+                EmployeeType = employeeDetails.EmployeeType,
+                HiringDate = employeeDetails.HireDate,
+                DepartmentId = employeeDetails.DepartmentId
+
+
+            };
+            TempData["Id"] = id;
+            return View(model);
+        }
+
+        [HttpPost]//baseUrl/Employee/Edit/Id
+        public ActionResult Edit([FromRoute] int id ,EmployeeEditViewModel model)
+        {
+            if (((int?)TempData["id"]) != id)
+            {
+                ModelState.AddModelError("Id", "Invalid Id ");
+                return View(model);
+            }
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var message = "Employee Updated Successfully";
+
+            try
+            {
+                var EmployeeToUpdate = new EmployeeUpdateDto(model.Id,model.FirstName,model.LastName,model.Email,model.PhoneNumber,model.Address,model.Salary,model.IsActive,model.Gender,model.EmployeeType,model.DepartmentId);
+                var Updated = _employeeService.UpdateEmployee(EmployeeToUpdate) > 0;
+                if (!Updated)
+                {
+                    message = "Failed to Update Employee";
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                message = ex.Message;
+            }
+            TempData["Message"] = message;
+            return RedirectToAction(nameof(Index));
+
 
         }
     }

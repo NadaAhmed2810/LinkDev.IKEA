@@ -1,30 +1,23 @@
-﻿@model EmployeeCreateViewModel
+﻿@model EmployeeEditViewModel
 @inject IDepartmentService _departmentService
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     var departments = _departmentService.GetDepartments();
     Model.Departments = new SelectList(departments, nameof(Department.Id), nameof(Department.Name));
-    // Model.Departments = departments.Select(d => new SelectListItem()
-    // {
-    //     Text=d.Name,
-    //     Value=d.Id.ToString()
-    // });
 }
 
-
 <div class="container">
-    <h1>Create Employee</h1>
+    <h1 class="my-3">Edit Employee</h1>
 
     <div class="row">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4>Employee Information</h4>
+                <div class="card-header bg-warning">
+                    <h4>Edit Employee Information</h4>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" method="post">
+                    <form asp-action="Edit" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                         <div class="row">
                             <div class="form-group col-md-6 mt-3">
                                 <label asp-for="FirstName" class="control-label"></label>
@@ -43,9 +36,9 @@
                                 <input asp-for="Address" class="form-control" />
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
-                         </div>
+                        </div>
 
-                      <div class="row"> 
+                        <div class="row">
                             <div class="form-group col-md-6 mt-3">
                                 <label asp-for="Email" class="control-label"></label>
                                 <input asp-for="Email" class="form-control" />
@@ -56,7 +49,7 @@
                                 <input asp-for="PhoneNumber" class="form-control" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
-                      </div>
+                        </div>
                         <div class="row">
                             <div class="form-group  col-md-6 mt-3">
                                 <label asp-for="DateofBirth" class="control-label"></label>
@@ -70,43 +63,54 @@
 
                             </div>
                         </div>
-                        <div class="row" >
+                        <div class="row">
                             <div class="form-group col-6 mt-3">
                                 <label class="control-label mb-2" asp-for="Gender"></label><br />
-                                @foreach(Gender gender in Enum.GetValues(typeof(Gender)))
+                                @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
                                 {
                                     <div class="form-check">
-                                        <input type="radio" class="form-check-input" asp-for="Gender" value="@gender"/>
+                                        <input type="radio" class="form-check-input" asp-for="Gender" value="@gender" />
                                         <label class="form-check-label" asp-for="Gender"> @gender</label>
                                     </div>
                                 }
 
-                           </div>
-                           <div class="form-group col-6 mt-3">
-                               <label asp-for="EmployeeType" class="control-label mb-2"></label>
-                                <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control"> 
+                            </div>
+                            <div class="form-group col-6 mt-3">
+                                <label asp-for="EmployeeType" class="control-label mb-2"></label>
+                                <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
                                     <option value="">Choose....</option>
                                 </select>
-                           </div>
+                            </div>
 
-                       </div>
+                        </div>
 
                         <div class="row">
                             <div class="form-group col-md-6 mt-3">
                                 <label asp-for="DepartmentId" class="control-label"></label>
                                 <select asp-for="DepartmentId" class="form-control" asp-items="Model.Departments">
-									<option value="@null">---Select Department---</option>
-									
+                                    <option value="@null">---Select Department---</option>
+
                                 </select>
                                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
                             </div>
-                      
-                          
+
+
                         </div>
-                        
-                        <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Create
+
+
+                        <div class="row">
+                            <div class="form-group col-md-6 mt-3">
+                                <div class="form-check mt-4">
+                                    <input asp-for="IsActive" class="form-check-input" />
+                                    <label asp-for="IsActive" class="form-check-label"></label>
+                                </div>
+                            </div>
+                        </div>
+
+     
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Save Changes
                             </button>
                             <a asp-action="Index" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Back to List
@@ -116,20 +120,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4"> 
-             <div class="card"> 
-                 <div class="card-header bg-info text-white"> 
-                     <h4>Create Information</h4> 
-                 </div> 
-                   <div class="card-body"> 
-                    <p>Please fill the required fields to create a new department.</p> 
-                     <ul> 
-                        <li>The employee will be automatically set as active .</li> 
-                        <li>The hire date will be set in todays date.</li>
-                        <li>Make sure in select the appropriate department.</li>
-                     </ul> 
-            </div> 
-           </div> 
-        </div> 
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4>Edit Information</h4>
+                </div>
+                <div class="card-body">
+                    <p>You can modify the employee information using this form.</p>
+                    <ul>
+                        <li>You can change the employee's active status using the checkbox.</li>
+                        <li>The hire date cannot be modified.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
