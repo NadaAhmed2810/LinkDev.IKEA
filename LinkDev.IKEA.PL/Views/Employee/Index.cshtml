@@ -1,4 +1,5 @@
-﻿@model EmployeeListViewModel 
+﻿@using LinkDev.IKEA.PL.ViewModels.Employees
+@model EmployeeListViewModel 
 @{
 	ViewData["Title"] = "Employees";
 }
@@ -86,33 +87,14 @@
                                 </div>
                            </td>
                         <td>
-                                <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger ">
+                            <button class="btn btn-danger btn-sm " id="delete-btn" data-id="@item.Id" data-name="@item.FullName">
                                     <i class="fa-solid fa-trash"></i>Delete
-                                </a>
+                                </button>
                         </td>
                         
                        
                     </tr>
-                    <!--Delete Modal-->
-                    <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title fs-1" id="exampleModalLabel">Delete Department</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Are You Sure To Delete This Employee?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form asp-action="Delete" asp-route-id="@item.Id">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <input type="submit" value="Delete" class="btn btn-danger">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                 
                 }
             </tbody>
         </table>
@@ -167,4 +149,56 @@
             </div>
         </div>
     </div>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<input type="hidden" name="__RequestVerificationToken" value="fake-token-for-demo" />
+
+<button class="delete-btn" data-id="5" data-name="John Doe">Delete</button>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '#delete-btn', function (e) {
+            e.preventDefault();
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+
+            Swal.fire({
+                title: 'Confirm Delete',
+                html: 'Are you sure you want to delete <strong>' + name + '</strong>?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+
+                    var form = $('<form></form>').attr({
+                        method: 'post',
+                        action: '/Employee/Delete/' + id
+                    });
+
+                    form.append($('<input>').attr({
+                        type: 'hidden',
+                        name: '__RequestVerificationToken',
+                        value: token
+                    }));
+
+                    $('body').append(form);
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+
 }
