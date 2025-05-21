@@ -12,6 +12,6 @@ namespace LinkDev.IKEA.DAL.Common.Entities
         public /*required*/ string? CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public string? LastModifiedBy { get; set; }
-        public /*required*/ DateTime LastModifiedOn { get; set; }
+        public /*required*/DateTime LastModifiedOn { get; set; }
     }
 }
