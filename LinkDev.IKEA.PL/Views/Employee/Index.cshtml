@@ -86,13 +86,14 @@
                                 </div>
                            </td>
                         <td>
-                                <a asp-controller="Department" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger ">
+                                <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger ">
                                     <i class="fa-solid fa-trash"></i>Delete
                                 </a>
                         </td>
                         
                        
                     </tr>
+                    <!--Delete Modal-->
                     <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog">
                             <div class="modal-content">
