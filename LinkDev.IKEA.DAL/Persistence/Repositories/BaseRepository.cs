@@ -67,7 +67,7 @@ namespace LinkDev.IKEA.DAL.Persistence.Repositories
 
       
 
-        public PaginatedResult<TEntity> GetAll(QueryParameters queryParameters, Expression<Func<TEntity, bool>>? filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? Includes = null)
+        public virtual PaginatedResult<TEntity> GetAll(QueryParameters queryParameters, Expression<Func<TEntity, bool>>? filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? OrderBy = null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? Includes = null)
         {
             IQueryable<TEntity> query = _dbSet;
             if (Includes is { })

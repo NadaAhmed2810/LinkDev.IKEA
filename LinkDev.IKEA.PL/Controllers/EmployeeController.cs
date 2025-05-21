@@ -27,14 +27,15 @@ namespace LinkDev.IKEA.PL.Controllers
 
         #region Index
         [HttpGet] //baseUrl/Employee/Index
-        public ActionResult Index(int PageIndex = 1, int PageSize = 10)
+        public ActionResult Index(string SearchTerm="",int PageIndex = 1, int PageSize = 10)
         {
             // If Exception will can throw will use try ,catch
 
             var queryparams = new QueryParameters()
             {
                 PageIndex = PageIndex,
-                PageSize = PageSize
+                PageSize = PageSize,
+                SearchTerm = SearchTerm
             };
             var employees = _employeeService.GetPaginatedEmployees(queryparams);
             var model = new EmployeeListViewModel()

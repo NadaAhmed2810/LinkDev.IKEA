@@ -15,7 +15,7 @@
         <div class="col-md-6">
             <form asp-action="Index" method="get" class="form-inline float-right">
                 <div class="input-group">
-                    <input type="text" name="searchTerm" class="form-control" placeholder="Search employees...">
+                    <input type="text" asp-for="SearchTerm" class="form-control" placeholder="Search employees...">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary">Search</button>
                     </div>
@@ -157,7 +157,6 @@
 
 <input type="hidden" name="__RequestVerificationToken" value="fake-token-for-demo" />
 
-<button class="delete-btn" data-id="5" data-name="John Doe">Delete</button>
 
 <script>
     $(document).ready(function () {
@@ -198,7 +197,3 @@
         });
     });
 </script>
-
-
-
-}

@@ -99,13 +99,16 @@ namespace LinkDev.IKEA.BLL.Services.Employees
             if (queryParameters.PageSize > 100)
                 queryParameters.PageSize = 100;
 
-            var employees = _unitOfWork.Employees.GetAll(
-                queryParameters: queryParameters,
-                Includes: E => E.Include(E => E.Department)
-                //filter: E => E.FirstName.Contains(queryParameters.SearchTerm)== true,
-                //orderby: E =>E.Age
+            #region note
+            //_unitOfWork.Employees.GetAll(queryParameters: queryParameters
+            //Must be in Data Access Layer Not in Business Logic Layer 
+            //Includes: E => E.Include(E => E.Department),
+            //filter: E => E.FirstName.Contains(queryParameters.SearchTerm!)|| E.LastName.Contains(queryParameters.SearchTerm!)
+            //orderby: E =>E.Age
+            //);
+            #endregion
 
-                );
+            var employees = _unitOfWork.Employees.GetAll(queryParameters: queryParameters);
             var result = new PaginatedResult<EmployeeDto>
             {
                 Data = employees.Data.Select(E => new EmployeeDto(E.Id, E.FirstName, E.LastName, E.Age, E.Email, E.PhoneNumber, E.Address,E.Salary, E.IsActive, E.HireDate, E.Gender, E.EmployeeType, E.DepartmentId,E.Department?.Name, E.CreatedBy, E.CreatedOn, E.LastModifiedBy, E.LastModifiedOn)),
