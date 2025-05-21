@@ -13,11 +13,13 @@ namespace LinkDev.IKEA.PL.Controllers
         private readonly ILogger<DepartmentController> logger;
         #region Services
         private readonly IDepartmentService _departmentService;
+        private readonly IWebHostEnvironment environment;
 
-        public DepartmentController(ILogger<DepartmentController> logger,IDepartmentService departmentService)
+        public DepartmentController(ILogger<DepartmentController> logger,IDepartmentService departmentService,IWebHostEnvironment environment)
         {
             this.logger = logger;
             _departmentService = departmentService;
+            this.environment = environment;
         }
         #endregion
         #region Index
@@ -89,7 +91,14 @@ namespace LinkDev.IKEA.PL.Controllers
                 //1.Log Exception in Database or External File [By using Serial Package]
                 logger.LogError(ex.Message, ex.StackTrace!.ToString());
                 //2.Set message
-                message = "An Error Occurred,Please Try Later ";
+                if(environment.IsDevelopment())
+                {
+                    message = ex.Message;
+                }
+                else
+                {
+                    message = "An Error Occurred,Please Try Later ";
+                }
                 
             }
             TempData["Message"]=message;
@@ -147,7 +156,14 @@ namespace LinkDev.IKEA.PL.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex.Message, ex.StackTrace!.ToString());
-                message = "An Error Occurred,Please Try Later ";
+                if (environment.IsDevelopment())
+                {
+                    message = ex.Message;
+                }
+                else
+                {
+                    message = "An Error Occurred,Please Try Later ";
+                }
             }
             TempData["Message"]=message;
             return RedirectToAction(nameof(Index));
@@ -177,7 +193,14 @@ namespace LinkDev.IKEA.PL.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex.Message, ex.StackTrace!.ToString());
-                message = "An Error Occurred,Please Try Later ";
+                if (environment.IsDevelopment())
+                {
+                    message = ex.Message;
+                }
+                else
+                {
+                    message = "An Error Occurred,Please Try Later ";
+                }
             }
             TempData["Message"] = message;
             return RedirectToAction(nameof(Index));

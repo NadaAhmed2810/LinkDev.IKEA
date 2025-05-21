@@ -166,10 +166,10 @@ namespace LinkDev.IKEA.BLL.Services.Employees
 
       
 
-        public void DeleteEmployee(int id)
+        public int DeleteEmployee(int id)
         {
             _unitOfWork.Employees.Delete(id);
-            _unitOfWork.Complete();
+            return _unitOfWork.Complete();
         }
 
 

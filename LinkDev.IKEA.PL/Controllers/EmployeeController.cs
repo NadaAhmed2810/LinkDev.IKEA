@@ -11,15 +11,21 @@ namespace LinkDev.IKEA.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly ILogger<EmployeeController> logger;
         #region Services
+        private readonly ILogger<EmployeeController> logger;
+
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeService employeeService, IDepartmentService departmentService)
+        private readonly IWebHostEnvironment environment;
+
+        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeService employeeService,IWebHostEnvironment environment)
         {
             this.logger = logger;
             _employeeService = employeeService;
+            this.environment = environment;
         }
         #endregion
+
+        #region Index
         [HttpGet] //baseUrl/Employee/Index
         public ActionResult Index(int PageIndex = 1, int PageSize = 10)
         {
@@ -59,6 +65,8 @@ namespace LinkDev.IKEA.PL.Controllers
             };
             return View(model);
         }
+        #endregion
+        #region Details
         [HttpGet]//baseUrl/Employee/Details/Id
         public ActionResult Details(int? id)
         {
@@ -97,6 +105,8 @@ namespace LinkDev.IKEA.PL.Controllers
             return View(model);
         }
 
+        #endregion
+        #region Create
         [HttpGet]//baseUrl/Employee/Create
         public ActionResult Create()
         {
@@ -122,26 +132,30 @@ namespace LinkDev.IKEA.PL.Controllers
                 return View(model);
 
             }
-            var Message = "Department Created Successfully";
+            var message = "Department Created Successfully";
             try
             {
                 var employeeToCreate = new EmployeeCreateDto(model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.Address, model.DateofBirth, model.Salary, model.Gender, model.EmployeeType, model.DepartmentId);
                 var created = _employeeService.CreateEmployee(employeeToCreate) > 0;
                 if (!created)
-                    Message = "Failed to create employee";
+                    message = "Failed to create employee";
 
 
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message, ex.StackTrace!.ToString());
-                Message = "An Error Occurred,Please Try Again Later";
-                return RedirectToAction(nameof(Index));
+                if (environment.IsDevelopment())
+                    message = ex.Message;
+                else
+                    message = "An Error Occurred,Please Try Again Later";
             }
-            TempData["Message"] = Message;
+            TempData["Message"] = message;
             return RedirectToAction(nameof(Index));
 
         }
+        #endregion
+        #region Edit
         [HttpGet]//baseUrl/Employee/Edit/Id?
         public ActionResult Edit(int? id)
         {
@@ -173,14 +187,14 @@ namespace LinkDev.IKEA.PL.Controllers
         }
 
         [HttpPost]//baseUrl/Employee/Edit/Id
-        public ActionResult Edit([FromRoute] int id ,EmployeeEditViewModel model)
+        public ActionResult Edit([FromRoute] int id, EmployeeEditViewModel model)
         {
             if (((int?)TempData["id"]) != id)
             {
                 ModelState.AddModelError("Id", "Invalid Id ");
                 return View(model);
             }
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -188,7 +202,7 @@ namespace LinkDev.IKEA.PL.Controllers
 
             try
             {
-                var EmployeeToUpdate = new EmployeeUpdateDto(model.Id,model.FirstName,model.LastName,model.Email,model.PhoneNumber,model.Address,model.Salary,model.IsActive,model.Gender,model.EmployeeType,model.DepartmentId);
+                var EmployeeToUpdate = new EmployeeUpdateDto(model.Id, model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.Address, model.Salary, model.IsActive, model.Gender, model.EmployeeType, model.DepartmentId);
                 var Updated = _employeeService.UpdateEmployee(EmployeeToUpdate) > 0;
                 if (!Updated)
                 {
@@ -198,12 +212,43 @@ namespace LinkDev.IKEA.PL.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex.Message, ex.StackTrace!.ToString());
-                message = ex.Message;
+                if (environment.IsDevelopment())
+                    message = ex.Message;
+                else
+                    message = "An Error Occurred,Please Try Again Later";
             }
             TempData["Message"] = message;
             return RedirectToAction(nameof(Index));
 
 
         }
+
+        #endregion
+        //Need To Update using JavaScript
+        #region Delete
+        public IActionResult Delete(int Id)
+        {
+
+            var message = "Department Deleted Successfully";
+
+            try
+            {
+                var deleted = _employeeService.DeleteEmployee(Id) > 0;
+                if (!deleted)
+                    message = "Failed to Deleted Department";
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                if (environment.IsDevelopment())
+                    message = ex.Message;
+                else
+                    message = "An Error Occurred,Please Try Again Later";
+
+            }
+            TempData["Message"] = message;
+            return RedirectToAction(nameof(Index));
+        } 
+        #endregion
     }
 }

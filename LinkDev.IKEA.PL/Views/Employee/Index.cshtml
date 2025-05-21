@@ -83,12 +83,35 @@
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i> Delete
+                                </div>
+                           </td>
+                        <td>
+                                <a asp-controller="Department" asp-route-id="@item.Id" asp-action="Delete" class="btn btn-danger ">
+                                    <i class="fa-solid fa-trash"></i>Delete
                                 </a>
-                            </div>
                         </td>
+                        
+                       
                     </tr>
+                    <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fs-1" id="exampleModalLabel">Delete Department</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are You Sure To Delete This Employee?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <input type="submit" value="Delete" class="btn btn-danger">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </tbody>
         </table>
