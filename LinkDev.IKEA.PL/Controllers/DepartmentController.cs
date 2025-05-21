@@ -51,6 +51,7 @@ namespace LinkDev.IKEA.PL.Controllers
                 Id = department.Id,
                 Name = department.Name,
                 Code = department.Code,
+                Description = department.Description,
                 CreationDate = department.CreationDate,
                 CreatedBy = department.CreatedBy,
                 CreatedOn = department.CreatedOn,

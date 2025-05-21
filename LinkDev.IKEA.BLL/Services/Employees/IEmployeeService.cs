@@ -13,7 +13,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         EmployeeDto? GetEmployeeById(int id);
         EmployeeDetailsDto? GetEmployeeDetails(int id);
         PaginatedResult<EmployeeDto> GetPaginatedEmployees(QueryParameters queryParameters);
-        void CreateEmployee(EmployeeCreateDto employee);
+        int CreateEmployee(EmployeeCreateDto employee);
 
         void UpdateEmployee(EmployeeUpdateDto employee);
         void DeleteEmployee(int id);

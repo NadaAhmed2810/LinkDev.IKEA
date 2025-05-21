@@ -1,26 +1,29 @@
-﻿using LinkDev.IKEA.BLL.Services.Employees;
+﻿using LinkDev.IKEA.BLL.Models_DTOS_.Employee;
+using LinkDev.IKEA.BLL.Services.Departments;
+using LinkDev.IKEA.BLL.Services.Employees;
 using LinkDev.IKEA.DAL.Persistence.Common;
 using LinkDev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LinkDev.IKEA.PL.Controllers
 {
-    public class EmployeeController:Controller
+    public class EmployeeController : Controller
     {
         private readonly ILogger<EmployeeController> logger;
         #region Services
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeService employeeService)
+        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeService employeeService, IDepartmentService departmentService)
         {
             this.logger = logger;
             _employeeService = employeeService;
         }
         #endregion
         [HttpGet] //baseUrl/Employee/Index
-        public ActionResult Index(int PageIndex=1,int PageSize=10)
+        public ActionResult Index(int PageIndex = 1, int PageSize = 10)
         {
             // If Exception will can throw will use try ,catch
-            
+
             var queryparams = new QueryParameters()
             {
                 PageIndex = PageIndex,
@@ -29,7 +32,7 @@ namespace LinkDev.IKEA.PL.Controllers
             var employees = _employeeService.GetPaginatedEmployees(queryparams);
             var model = new EmployeeListViewModel()
             {
-                Employees = employees.Data.Select(e=>new EmployeeViewModel()
+                Employees = employees.Data.Select(e => new EmployeeViewModel()
                 {
                     Id = e.Id,
                     FullName = $"{e.FirstName} {e.LastName}",
@@ -54,13 +57,13 @@ namespace LinkDev.IKEA.PL.Controllers
                 TotalCount = employees.TotalCount
             };
             return View(model);
-        } 
+        }
         [HttpGet]//baseUrl/Employee/Details/Id
         public ActionResult Details(int? id)
         {
-            if(!id.HasValue)
-            if(!id.HasValue)
-                return BadRequest();
+            if (!id.HasValue)
+                if (!id.HasValue)
+                    return BadRequest();
             var EmployeeDetails = _employeeService.GetEmployeeDetails(id.Value);
             if (EmployeeDetails == null)
                 return NotFound();
@@ -93,6 +96,50 @@ namespace LinkDev.IKEA.PL.Controllers
             return View(model);
         }
 
+        [HttpGet]//baseUrl/Employee/Create
+        public ActionResult Create()
+        {
+            var model = new EmployeeCreateViewModel()
+            {
 
+                DateofBirth = DateOnly.FromDateTime(DateTime.Now.AddYears(-18))
+            };
+            return View(model);
+        }
+
+        [HttpPost]//baseUrl/Employee/Create
+        public ActionResult Create(EmployeeCreateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                //var departments = _departmentService.GetDepartments();
+                //model.Departments = departments.Select(d => new SelectListItem()
+                //{
+                //    Value = d.Id.ToString(),
+                //    Text = d.Name
+                //});
+                return View(model);
+
+            }
+            var Message = "Department Created Successfully";
+            try
+            {
+                var employeeToCreate = new EmployeeCreateDto(model.FirstName, model.LastName,model.Email,model.PhoneNumber, model.Address, model.DateofBirth, model.Salary, model.Gender, model.EmployeeType, model.DepartmentId);
+                var created = _employeeService.CreateEmployee(employeeToCreate)>0;
+                if (!created)
+                    Message = "Failed to create employee";
+               
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message,ex.StackTrace!.ToString());
+                Message = "An Error Occurred,Please Try Again Later";
+                return RedirectToAction(nameof(Index));
+            }
+            TempData["Message"] = Message;
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 }

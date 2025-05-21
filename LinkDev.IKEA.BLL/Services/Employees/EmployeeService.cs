@@ -118,7 +118,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
         }
 
 
-        public void CreateEmployee(EmployeeCreateDto employeedto)
+        public int CreateEmployee(EmployeeCreateDto employeedto)
         {
             ValidateEmployeeUpdateBusinesdRuleds(employeedto);
             var employee = new Employee()
@@ -140,7 +140,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
             employee.HireDate = DateOnly.FromDateTime( DateTime.Now);
         
             _unitOfWork.Employees.Add(employee);
-            _unitOfWork.Complete();
+            return _unitOfWork.Complete();
         }
         
 
