@@ -40,6 +40,8 @@ namespace LinkDev.IKEA.DAL.Persistence.Common
                 }
             }
         }
+        public  string? SortedBy { get; set; }
+        public bool   SortAscending { get; set; }
 
     }
 }

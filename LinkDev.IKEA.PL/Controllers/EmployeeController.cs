@@ -27,7 +27,11 @@ namespace LinkDev.IKEA.PL.Controllers
 
         #region Index
         [HttpGet] //baseUrl/Employee/Index
-        public ActionResult Index(string SearchTerm="",int PageIndex = 1, int PageSize = 10)
+        public ActionResult Index(string SearchTerm="",
+                                  string SortedBy="",
+                                  bool SortAscending=true,
+                                  int PageIndex = 1,
+                                  int PageSize = 10)
         {
             // If Exception will can throw will use try ,catch
 
@@ -35,12 +39,14 @@ namespace LinkDev.IKEA.PL.Controllers
             {
                 PageIndex = PageIndex,
                 PageSize = PageSize,
-                SearchTerm = SearchTerm
+                SearchTerm = SearchTerm,
+                SortedBy = SortedBy,
+                SortAscending = SortAscending
             };
-            var employees = _employeeService.GetPaginatedEmployees(queryparams);
+            var PaginatedResult = _employeeService.GetPaginatedEmployees(queryparams);
             var model = new EmployeeListViewModel()
             {
-                Employees = employees.Data.Select(e => new EmployeeViewModel()
+                Employees = PaginatedResult.Data.Select(e => new EmployeeViewModel()
                 {
                     Id = e.Id,
                     FullName = $"{e.FirstName} {e.LastName}",
@@ -62,7 +68,9 @@ namespace LinkDev.IKEA.PL.Controllers
                 }),
                 PageSize = PageSize,
                 Page = PageIndex,
-                TotalCount = employees.TotalCount
+                SortedBy=SortedBy,
+                SortAscending=SortAscending,
+                TotalCount = PaginatedResult.TotalCount
             };
             return View(model);
         }

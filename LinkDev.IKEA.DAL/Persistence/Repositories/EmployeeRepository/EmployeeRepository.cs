@@ -31,7 +31,44 @@ namespace LinkDev.IKEA.DAL.Persistence.Repositories.EmployeeRepository
           //Apply Include
             Func<IQueryable<Employee>, IQueryable<Employee>>? Includes = null;
             Includes = e => e.Include(e => e.Department);
-            return base.GetAll(queryParameters, filter, null, Includes);
+            //Apply Sorting
+            Func<IQueryable<Employee>, IOrderedQueryable<Employee>>? OrderBy = null;
+            OrderBy = queryParameters.SortedBy?.ToLower() switch
+            {
+                "name" => queryParameters.SortAscending ?
+                query => query.OrderBy(E => E.FirstName).ThenBy(E => E.LastName)
+
+                : query => query.OrderByDescending(E => E.FirstName).ThenByDescending(E => E.LastName),
+
+                "email" => queryParameters.SortAscending ?
+                query => query.OrderBy(e => e.Email) :
+                query => query.OrderByDescending(e => e.Email),
+
+                "hiredate" => queryParameters.SortAscending ?
+                query => query.OrderBy(e => e.HireDate) :
+                query => query.OrderByDescending(e => e.HireDate),
+
+                "salary" => queryParameters.SortAscending ?
+                query => query.OrderBy(e => e.Salary) :
+                query => query.OrderByDescending(e => e.Salary),
+
+                "status" => queryParameters.SortAscending ?
+                query => query.OrderBy(e => e.IsActive) :
+                query => query.OrderByDescending(e => e.IsActive),
+
+
+                _ => queryParameters.SortAscending ? query => query.OrderBy(e => e.FirstName).ThenBy(e => e.LastName) :
+                 query => query.OrderByDescending(e => e.FirstName).ThenByDescending(e => e.LastName)
+
+
+
+
+
+            };
+
+                
+            return base.GetAll(queryParameters, filter, OrderBy, Includes);
+           
         }
     }
 }

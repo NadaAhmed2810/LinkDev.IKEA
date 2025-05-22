@@ -9,7 +9,9 @@
 
         public int TotalCount { get; set; }
         public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
-        public  string?  SearchTerm { get; set; }
+        public  string?  SearchTerm { get; set; }   
+        public string? SortedBy { get; set; }
+        public bool SortAscending { get; set; } = true;
 
     }
 }
