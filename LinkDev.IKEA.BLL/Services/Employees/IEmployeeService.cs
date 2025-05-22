@@ -17,6 +17,7 @@ namespace LinkDev.IKEA.BLL.Services.Employees
 
         int UpdateEmployee(EmployeeUpdateDto employee);
         int DeleteEmployee(int id);
+        bool ChangeEmployeeStatus(int id, bool Activiation);
 
     }
 }

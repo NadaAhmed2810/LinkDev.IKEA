@@ -257,7 +257,33 @@ namespace LinkDev.IKEA.PL.Controllers
             }
             TempData["Message"] = message;
             return RedirectToAction(nameof(Index));
-        } 
+        }
+        #endregion
+
+        #region Toggle Status
+        public IActionResult ToggleStatus(int id,bool IsActive)
+        {
+            var message = "Employee Status Changed Successfully";
+            try
+            {
+                var iactive = _employeeService.ChangeEmployeeStatus(id, IsActive);
+                message= iactive ? "Employee Status Changed Successfully" : "Failed to Change Employee Status"; 
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                if (environment.IsDevelopment())
+                   message = ex.Message;
+                else
+                   message = "An Error Occurred,Please Try Again Later";
+            }
+            TempData["Message"] = message;
+            return RedirectToAction(nameof(Index));
+
+
+
+        }
         #endregion
     }
 }

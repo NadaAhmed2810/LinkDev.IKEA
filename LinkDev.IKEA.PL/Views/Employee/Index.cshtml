@@ -107,6 +107,7 @@
                         </a>
                     </th>
                     <th>Status</th>
+                    <th>De/Activiate</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -118,14 +119,20 @@
                         <td>@item.Email</td>
                         <td>@item.DepartmentName</td>
                         <td>
-                            @if (item.IsActive)
-                            {
-                                <span class="badge bg-success">Active</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">Inactive</span>
-                            }
+                            <span class="badge bg-@(item.IsActive?"success":"secondary")">
+                                @(item.IsActive?"IsActive":"Inactive")
+                            </span>
+                           
+                   
+                        </td>
+                        <td>
+                            <!--Update it Toggle -->
+							<form asp-action="ToggleStatus" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                <input type="hidden" name="isActive" value="@((!item.IsActive).ToString().ToLower())" />
+                                <button type="submit" class="btn btn-sm @(item.IsActive ? "btn-secondary" : "btn-success")">
+                                    @(item.IsActive ? "Deactivate" : "Activate")
+                                </button>
+							</form>
                         </td>
                         <td>
                             <div class="btn-group">
@@ -135,13 +142,13 @@
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                </div>
-                           </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm " id="delete-btn" data-id="@item.Id" data-name="@item.FullName">
+                                
+                                <button class="btn btn-danger btn-sm " id="delete-btn" data-id="@item.Id" data-name="@item.FullName">
                                     <i class="fa-solid fa-trash"></i>Delete
                                 </button>
-                        </td>
+                            </div>
+                           </td>
+                        
                         
                        
                     </tr>

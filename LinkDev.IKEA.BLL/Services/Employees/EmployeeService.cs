@@ -174,6 +174,18 @@ namespace LinkDev.IKEA.BLL.Services.Employees
             _unitOfWork.Employees.Delete(id);
             return _unitOfWork.Complete();
         }
+        public bool ChangeEmployeeStatus(int id, bool IsActive)
+        {
+            var employee = _unitOfWork.Employees.GetById(id);
+            if (employee is null)
+                throw new Exception($"Employee with ID {id} does not exist.");
+            if (employee.IsActive == IsActive)
+                throw new Exception($"Employee with ID {id}is already {(IsActive?"active":"Inactive")}.");
+            employee.IsActive = IsActive;
+            _unitOfWork.Employees.Update(employee);
+            return _unitOfWork.Complete() > 0;
+
+        }
 
 
         #region HelperMethods
@@ -213,6 +225,8 @@ namespace LinkDev.IKEA.BLL.Services.Employees
 
 
         }
+
+    
 
         #endregion
     }
