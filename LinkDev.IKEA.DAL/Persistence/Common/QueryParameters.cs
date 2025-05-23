@@ -11,7 +11,16 @@ namespace LinkDev.IKEA.DAL.Persistence.Common
         private const int MaxPageSize = 20;
         public int PageIndex { get; set; } = 1;
         private int _pageSize = 10;
-        public string? SearchTerm { get; set; }
+        private string? _searchTerm;
+        public string? SearchTerm
+        {
+            get => _searchTerm;
+            set
+            {
+                    _searchTerm = value?.ToLower();
+                
+            }
+        }
 
         public int PageSize {
             get=> _pageSize;
@@ -31,6 +40,8 @@ namespace LinkDev.IKEA.DAL.Persistence.Common
                 }
             }
         }
+        public  string? SortedBy { get; set; }
+        public bool   SortAscending { get; set; }
 
     }
 }
