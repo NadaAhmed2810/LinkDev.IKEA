@@ -42,7 +42,8 @@ namespace LinkDev.IKEA.BLL.Services.Departments
            var departments=unitOfWork.Departments.GetAll();
             foreach (var department in departments)
             {
-                yield return new DepartmentDto(department.Id, department.Code, department.Name, department.Description, department.CreationDate);
+
+                yield return new DepartmentDto(department.Id, department.Code, department.Name, department.Description, department.CreationDate,$"{department.Manager!.FirstName} {department.Manager!.LastName}");
             }
         }
 
