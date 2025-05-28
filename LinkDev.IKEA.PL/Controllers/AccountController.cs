@@ -59,6 +59,41 @@ namespace LinkDev.IKEA.PL.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user is not null)
+            {
+                var flag = await _userManager.CheckPasswordAsync(user, model.Password);
+                if(flag)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                    if(result.IsNotAllowed)
+                    {
+                        ModelState.AddModelError("", "You are not confirmed yet!.");
+                        return View(model);
+                    }
+
+                    if(result.IsLockedOut)
+                    {
+                        ModelState.AddModelError("", $"Your account is locked out {user.LockoutEnd}!.");
+                        return View(model);
+                    }
+
+                    if (result.Succeeded)
+                        return RedirectToAction("Index", "Home");
+                }
+                return View(model);
+            }
+            ModelState.AddModelError("", "Invalid login attempt.");//it is more security 
+
+          
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View(model);
+        }
         #endregion
 
     }
